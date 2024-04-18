@@ -1,0 +1,6 @@
+[submodule "Amapola/vendor/spdlog"]
+	path = Amapola/vendor/spdlog
+	url = https://github.com/gabime/spdlog
+[submodule "Amapola/vendor/GLFW"]
+	path = Amapola/vendor/GLFW
+	url = https://github.com/TheCherno/GLFW

@@ -1,0 +1,49 @@
+# Compilation / temp
+*.o
+*.so
+*.dll
+*.dylib
+*.lib
+*.exe
+*.out
+*.log
+Debug/
+Release/
+obj/
+Build/
+**/bin/
+bin/
+bin-int/
+Intermediates/
+
+# IDE
+*.suo
+*.user
+*.userprefs
+*.3T
+*.tmproj
+.vs/
+.idea/
+*.sublime-workspace
+**.sln
+**.vcxproj
+**.vcxproj.filters
+**.vcxproj.user
+**.csproj
+
+# Deps
+/node_modules/
+# /vendor/
+# /Amapola/vendor/
+/Dependencies/
+
+# Sys
+.DS_Store
+Thumbs.db
+
+# Cache / packages
+*.zip
+*.tar.gz
+*.rar
+*.pkg
+.cache
