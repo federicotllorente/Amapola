@@ -4,3 +4,6 @@
 [submodule "Amapola/vendor/GLFW"]
 	path = Amapola/vendor/GLFW
 	url = https://github.com/TheCherno/GLFW
+[submodule "Amapola/vendor/imgui"]
+	path = Amapola/vendor/imgui
+	url = https://github.com/TheCherno/imgui

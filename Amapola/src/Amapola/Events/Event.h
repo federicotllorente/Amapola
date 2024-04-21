@@ -75,8 +75,7 @@ namespace Amapola
 
 		inline bool IsInCategory(EventCategory category) { return GetCategoryFlags() & category; }
 
-	protected:
-		bool m_Handled = false;
+		bool Handled = false;
 	};
 
 	/*
@@ -103,7 +102,7 @@ namespace Amapola
 			if (m_Event.GetEventType() == T::GetStaticType())
 			{
 				// This *(T*)&m_Event casts m_Event ref from an Event to T
-				m_Event.m_Handled = func(*(T*)&m_Event);
+				m_Event.Handled = func(*(T*)&m_Event);
 				// First, &m_Event gets the memory address of m_Event (being an Event*)
 				// Then, this Event* gets casted into a T* using (T*) (now being indeed a T*)
 				// Finally, this T* gets "dereferenced" into a T with *(T*)&m_Event

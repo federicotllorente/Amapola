@@ -13,8 +13,12 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 -- Include directories relative to the root folder (solution directory)
 IncludeDir = {}
 IncludeDir["GLFW"] = "Amapola/vendor/GLFW/include"
+IncludeDir["Glad"] = "Amapola/vendor/Glad/include"
+IncludeDir["ImGui"] = "Amapola/vendor/imgui"
 
 include "Amapola/vendor/GLFW"
+include "Amapola/vendor/Glad"
+include "Amapola/vendor/imgui"
 
 project "Amapola"
 	location "Amapola"
@@ -37,12 +41,16 @@ project "Amapola"
 	{
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
-		"%{IncludeDir.GLFW}"
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.ImGui}"
 	}
 
 	links
 	{
 		"GLFW",
+		"Glad",
+		"ImGui",
 		"opengl32.lib",
 		"dwmapi.lib"
 	}
@@ -55,7 +63,8 @@ project "Amapola"
 		defines
 		{
 			"AMPL_PLATFORM_WINDOWS",
-			"AMPL_BUILD_DLL"
+			"AMPL_BUILD_DLL",
+			"GLFW_INCLUDE_NONE"
 		}
 
 		postbuildcommands
@@ -65,14 +74,17 @@ project "Amapola"
 
 	filter "configurations:Debug"
 		defines "AMPL_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "AMPL_RELEASE"
+		buildoptions "/MD"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "AMPL_DIST"
+		buildoptions "/MD"
 		optimize "On"
 
 project "Sandbox"
@@ -112,12 +124,15 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "AMPL_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "AMPL_RELEASE"
+		buildoptions "/MD"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "AMPL_DIST"
+		buildoptions "/MD"
 		optimize "On"
