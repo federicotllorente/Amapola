@@ -3,9 +3,15 @@
 
 #include "imgui.h"
 #include "Platform/OpenGL/ImGuiOpenGLRenderer.h"
-#include "GLFW/glfw3.h"
 
 #include "Amapola/Application.h"
+
+#include <Amapola/Events/MouseEvent.h>
+#include <Amapola/Events/KeyEvent.h>
+
+// TEMPORARY
+#include <GLFW/glfw3.h>
+#include <glad/glad.h>
 
 namespace Amapola
 {
@@ -76,8 +82,162 @@ namespace Amapola
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	}
-	
+
 	void ImGuiLayer::OnEvent(Event& event)
 	{
+		EventType type = event.GetEventType();
+
+		switch (type)
+		{
+			case Amapola::EventType::WindowResized:
+			{
+				EventDispatcher dispatcher(event);
+				dispatcher.Dispatch<WindowResizedEvent>(
+					[](WindowResizedEvent& e)
+					{
+						unsigned int w = e.GetWidth();
+						unsigned int h = e.GetHeight();
+
+						ImGuiIO& io = ImGui::GetIO();
+						io.DisplaySize = ImVec2(w, h);
+						io.DisplayFramebufferScale = ImVec2(1.0f, 1.0f);
+						glViewport(0, 0, w, h);
+
+						return false;
+					}
+				);
+				break;
+			}
+			case Amapola::EventType::KeyPressed:
+			{
+				EventDispatcher dispatcher(event);
+				dispatcher.Dispatch<KeyPressedEvent>(
+					[](KeyPressedEvent& e)
+					{
+						int keycode = e.GetKeyCode();
+
+						ImGuiIO& io = ImGui::GetIO();
+						//io.AddKeyEvent(keycode, true); // TODO Transform our keycodes into ImGui's
+						io.KeysDown[keycode] = true;
+
+						/* Modifier keys */
+						
+						// KeyCtrl
+						io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_CONTROL] || io.KeysDown[GLFW_KEY_RIGHT_CONTROL];
+						
+						// KeyShift
+						io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_SHIFT] || io.KeysDown[GLFW_KEY_RIGHT_SHIFT];
+						
+						// KeyAlt
+						io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_ALT] || io.KeysDown[GLFW_KEY_RIGHT_ALT];
+						
+						// KeySuper (Cmd/Super/Windows)
+						io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_SUPER] || io.KeysDown[GLFW_KEY_RIGHT_SUPER];
+
+						return false;
+					}
+				);
+				break;
+			}
+			case Amapola::EventType::KeyReleased:
+			{
+				EventDispatcher dispatcher(event);
+				dispatcher.Dispatch<KeyReleasedEvent>(
+					[](KeyReleasedEvent& e)
+					{
+						int keycode = e.GetKeyCode();
+
+						ImGuiIO& io = ImGui::GetIO();
+						//io.AddKeyEvent(keycode, false); // TODO Transform our keycodes into ImGui's
+						io.KeysDown[keycode] = false;
+
+						/* Modifier keys */
+
+						// KeyCtrl
+						io.KeyCtrl = !(io.KeysDown[GLFW_KEY_LEFT_CONTROL] || io.KeysDown[GLFW_KEY_RIGHT_CONTROL]);
+
+						// KeyShift
+						io.KeyCtrl = !(io.KeysDown[GLFW_KEY_LEFT_SHIFT] || io.KeysDown[GLFW_KEY_RIGHT_SHIFT]);
+
+						// KeyAlt
+						io.KeyCtrl = !(io.KeysDown[GLFW_KEY_LEFT_ALT] || io.KeysDown[GLFW_KEY_RIGHT_ALT]);
+
+						// KeySuper (Cmd/Super/Windows)
+						io.KeyCtrl = !(io.KeysDown[GLFW_KEY_LEFT_SUPER] || io.KeysDown[GLFW_KEY_RIGHT_SUPER]);
+
+						return false;
+					}
+				);
+				break;
+			}
+			case Amapola::EventType::MouseButtonPressed:
+			{
+				EventDispatcher dispatcher(event);
+				dispatcher.Dispatch<MouseButtonPressedEvent>(
+					[](MouseButtonPressedEvent& e)
+					{
+						int button = e.GetMouseButton();
+
+						ImGuiIO& io = ImGui::GetIO();
+						io.AddMouseButtonEvent(button, true);
+					
+						return false;
+					}
+				);
+				break;
+			}
+			case Amapola::EventType::MouseButtonReleased:
+			{
+				EventDispatcher dispatcher(event);
+				dispatcher.Dispatch<MouseButtonReleasedEvent>(
+					[](MouseButtonReleasedEvent& e)
+					{
+						int button = e.GetMouseButton();
+
+						ImGuiIO& io = ImGui::GetIO();
+						io.AddMouseButtonEvent(button, false);
+					
+						return false;
+					}
+				);
+				break;
+			}
+			case Amapola::EventType::MouseMoved:
+			{
+				EventDispatcher dispatcher(event);
+				dispatcher.Dispatch<MouseMovedEvent>(
+					[](MouseMovedEvent& e)
+					{
+						float x = e.GetX();
+						float y = e.GetY();
+
+						ImGuiIO& io = ImGui::GetIO();
+						io.AddMousePosEvent(x, y);
+
+						return false;
+					}
+				);
+				break;
+			}
+			case Amapola::EventType::MouseScrolled:
+			{
+				EventDispatcher dispatcher(event);
+				dispatcher.Dispatch<MouseScrolledEvent>(
+					[](MouseScrolledEvent& e)
+					{
+						float xOffset = e.GetXOffset();
+						float yOffset = e.GetYOffset();
+
+						ImGuiIO& io = ImGui::GetIO();
+						io.AddMouseWheelEvent(xOffset, yOffset);
+
+						return false;
+					}
+				);
+				break;
+			}
+			default:
+				break;
+		}
 	}
 }
