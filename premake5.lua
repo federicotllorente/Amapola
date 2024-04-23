@@ -15,6 +15,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "Amapola/vendor/GLFW/include"
 IncludeDir["Glad"] = "Amapola/vendor/Glad/include"
 IncludeDir["ImGui"] = "Amapola/vendor/imgui"
+IncludeDir["glm"] = "Amapola/vendor/glm"
 
 include "Amapola/vendor/GLFW"
 include "Amapola/vendor/Glad"
@@ -34,7 +35,9 @@ project "Amapola"
 	files
 	{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl"
 	}
 
 	includedirs
@@ -43,7 +46,8 @@ project "Amapola"
 		"%{prj.name}/vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
-		"%{IncludeDir.ImGui}"
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}"
 	}
 
 	links
@@ -57,7 +61,7 @@ project "Amapola"
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
+		staticruntime "on"
 		systemversion "latest"
 
 		defines
@@ -74,17 +78,14 @@ project "Amapola"
 
 	filter "configurations:Debug"
 		defines "AMPL_DEBUG"
-		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "AMPL_RELEASE"
-		buildoptions "/MD"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "AMPL_DIST"
-		buildoptions "/MD"
 		optimize "On"
 
 project "Sandbox"
@@ -104,7 +105,9 @@ project "Sandbox"
 	includedirs
 	{
 		"Amapola/vendor/spdlog/include",
-		"Amapola/src"
+		"Amapola/vendor/imgui",
+		"Amapola/src",
+		"%{IncludeDir.glm}"
 	}
 
 	links
@@ -114,7 +117,7 @@ project "Sandbox"
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
+		staticruntime "on"
 		systemversion "latest"
 
 		defines
@@ -124,15 +127,12 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "AMPL_DEBUG"
-		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "AMPL_RELEASE"
-		buildoptions "/MD"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "AMPL_DIST"
-		buildoptions "/MD"
 		optimize "On"

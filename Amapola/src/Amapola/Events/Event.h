@@ -23,7 +23,7 @@ namespace Amapola
 		AppTick, AppUpdated, AppRender,
 
 		// Key events (./KeyEvent.h)
-		KeyPressed, KeyReleased,
+		KeyPressed, KeyReleased, KeyTyped,
 
 		// Mouse events (./MouseEvent.h)
 		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled

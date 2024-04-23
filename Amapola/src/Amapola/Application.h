@@ -2,10 +2,14 @@
 
 #include "Core.h"
 #include "Window.h"
-#include "LayerStack.h"
+#include "Layers/LayerStack.h"
 
 #include "Events/Event.h"
 #include "Events/ApplicationEvent.h"
+#include "Events/MouseEvent.h"
+#include "Events/KeyEvent.h"
+
+#include "ImGui/ImGuiLayer.h"
 
 namespace Amapola
 {
@@ -31,6 +35,7 @@ namespace Amapola
 		bool OnWindowClose(WindowClosedEvent& e);
 
 		std::unique_ptr<Window> m_Window;
+		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 	};

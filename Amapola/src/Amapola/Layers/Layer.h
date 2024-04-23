@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Core.h"
-#include "Events/Event.h"
+#include "Amapola/Core.h"
+#include "Amapola/Events/Event.h"
 
 namespace Amapola
 {
@@ -13,6 +13,7 @@ namespace Amapola
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
+		virtual void OnImGuiRender() {}
 		virtual void OnUpdate() {}
 		virtual void OnEvent(Event& event) {}
 

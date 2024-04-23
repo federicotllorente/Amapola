@@ -1,0 +1,16 @@
+#pragma once
+
+/* From GLFW/glfw3.h */
+
+#define AMPL_MOUSE_BUTTON_1         0
+#define AMPL_MOUSE_BUTTON_2         1
+#define AMPL_MOUSE_BUTTON_3         2
+#define AMPL_MOUSE_BUTTON_4         3
+#define AMPL_MOUSE_BUTTON_5         4
+#define AMPL_MOUSE_BUTTON_6         5
+#define AMPL_MOUSE_BUTTON_7         6
+#define AMPL_MOUSE_BUTTON_8         7
+#define AMPL_MOUSE_BUTTON_LAST      AMPL_MOUSE_BUTTON_8
+#define AMPL_MOUSE_BUTTON_LEFT      AMPL_MOUSE_BUTTON_1
+#define AMPL_MOUSE_BUTTON_RIGHT     AMPL_MOUSE_BUTTON_2
+#define AMPL_MOUSE_BUTTON_MIDDLE    AMPL_MOUSE_BUTTON_3

@@ -47,6 +47,10 @@ namespace Amapola
 		virtual void SetVSync(bool enabled) = 0;
 		virtual bool IsVSync() const = 0;
 
+		// This will return the corresponding window for each API implementation
+		// For example for GLFW this will return the GLFWwindow, and so on...
+		virtual void* GetNativeWindow() const = 0;
+
 		static Window* Create(const WindowProps& props = WindowProps());
 	};
 }
