@@ -4,8 +4,19 @@
 class ExampleLayer : public Amapola::Layer
 {
 public:
-	ExampleLayer()
-		: Layer("Example")
+	ExampleLayer(
+		float* bgColorRef,
+		float* colorRef,
+		glm::mat4& modelMatrixRef,
+		float* angleXRef,
+		float* angleZRef
+	)
+		: Layer("Example"),
+		bgColorRef(bgColorRef),
+		colorRef(colorRef),
+		modelMatrixRef(modelMatrixRef),
+		angleXRef(angleXRef),
+		angleZRef(angleZRef)
 	{
 	}
 
@@ -16,23 +27,33 @@ public:
 
 	virtual void OnImGuiRender() override
 	{
-		ImGui::Begin("ImGui Test");
-		ImGui::Text("Hello world");
+		ImGui::Begin("Color settings");
+		ImGui::ColorPicker3("Background color", bgColorRef);
+		ImGui::ColorPicker3("Color", colorRef);
 		ImGui::End();
 
-		ImGui::Begin("ImGui Test 2");
-		ImGui::Text("Hello world 2");
+		ImGui::Begin("Matrices settings");
+		ImGui::SliderFloat4("Model matrix", &modelMatrixRef[0][0], -150, 150);
+		ImGui::SliderFloat("Rotation X", angleXRef, -90.0f, 90.0f);
+		ImGui::SliderFloat("Rotation Z", angleZRef, -180.0f, 180.0f);
 		ImGui::End();
 
-		ImGui::Begin("ImGui Test 3");
-		ImGui::Text("Hello world 3");
-		ImGui::End();
+		/*ImGui::Begin("Renderer");
+		const std::string text = "Hello world " + "Fede";
+		ImGui::Text((const char*)&text);
+		ImGui::End();*/
 	}
 
 	void OnEvent(Amapola::Event& event) override
 	{
 		//AMPL_TRACE("[ExampleLayer::Event] {0}", event);
 	}
+
+	float* bgColorRef;
+	float* colorRef;
+	glm::mat4& modelMatrixRef;
+	float* angleXRef;
+	float* angleZRef;
 };
 
 class Sandbox : public Amapola::Application
@@ -40,7 +61,12 @@ class Sandbox : public Amapola::Application
 public:
 	Sandbox()
 	{
-		PushLayer(new ExampleLayer());
+		float* bgColorRef = &this->GetBgColor();
+		float* colorRef = &this->GetColor();
+		glm::mat4& modelMatrixRef = this->GetModelMatrix();
+		float* angleXRef = &this->GetAngleX();
+		float* angleZRef = &this->GetAngleZ();
+		PushLayer(new ExampleLayer(bgColorRef, colorRef, modelMatrixRef, angleXRef, angleZRef));
 	}
 
 	~Sandbox()

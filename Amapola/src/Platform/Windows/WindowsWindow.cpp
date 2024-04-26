@@ -6,8 +6,6 @@
 #include "Amapola/Events/KeyEvent.h"
 #include "Amapola/Events/MouseEvent.h"
 
-#include <glad/glad.h>
-
 namespace Amapola
 {
 	static bool s_GLFWInitialized = false;
@@ -58,10 +56,8 @@ namespace Amapola
 			nullptr
 		);
 
-		glfwMakeContextCurrent(m_Window);
-
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		AMPL_CORE_ASSERT(status, "Failed to initialize Glad");
+		m_Context = new OpenGLContext(m_Window);
+		m_Context->Init();
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
@@ -188,7 +184,7 @@ namespace Amapola
 	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(m_Window);
+		m_Context->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool enabled)

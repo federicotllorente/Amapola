@@ -12,6 +12,7 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 -- Include directories relative to the root folder (solution directory)
 IncludeDir = {}
+IncludeDir["spdlog"] = "Amapola/vendor/spdlog/include"
 IncludeDir["GLFW"] = "Amapola/vendor/GLFW/include"
 IncludeDir["Glad"] = "Amapola/vendor/Glad/include"
 IncludeDir["ImGui"] = "Amapola/vendor/imgui"
@@ -43,7 +44,7 @@ project "Amapola"
 	includedirs
 	{
 		"%{prj.name}/src",
-		"%{prj.name}/vendor/spdlog/include",
+		"%{IncludeDir.spdlog}",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",

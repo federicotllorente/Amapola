@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Amapola/Window.h"
+#include "Platform/OpenGL/OpenGLContext.h"
 
 #include <GLFW/glfw3.h>
 
@@ -29,6 +30,7 @@ namespace Amapola
 		virtual void Shutdown();
 
 		GLFWwindow* m_Window;
+		OpenGLContext* m_Context;
 
 		struct WindowData
 		{

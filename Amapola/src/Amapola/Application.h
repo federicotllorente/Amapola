@@ -11,6 +11,11 @@
 
 #include "ImGui/ImGuiLayer.h"
 
+#include <glm/glm.hpp>
+
+// TEMPORARY
+#include "Amapola/Renderer/Shader.h"
+
 namespace Amapola
 {
 	class AMAPOLA_API Application
@@ -38,6 +43,26 @@ namespace Amapola
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
+
+		unsigned int vertexBuffer, indexBuffer, vertexArray;
+		std::unique_ptr<Shader> m_Shader;
+
+		float bgColor[3] = { 0.28f, 0.09f, 0.47f };
+		float m_Color[3] = { 0.38f, 0.19f, 0.57f };
+
+		glm::mat4 modelMatrix = glm::mat4(1.0f);
+		/*glm::mat4 m_ProjectionMatrix;
+		glm::mat4 m_ViewMatrix;*/
+
+		float m_AngleX = 0.0f;
+		float m_AngleZ = 0.0f;
+		
+	public:
+		inline float& GetBgColor() { return *bgColor; }
+		inline float& GetColor() { return *m_Color; }
+		inline glm::mat4& GetModelMatrix() { return modelMatrix; }
+		inline float& GetAngleX() { return m_AngleX; }
+		inline float& GetAngleZ() { return m_AngleZ; }
 	};
 
 	/* To be defined in client */
