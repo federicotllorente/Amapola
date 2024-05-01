@@ -7,6 +7,7 @@
 namespace Amapola
 {
 	Shader::Shader(const std::string& vertexSrc, const std::string& fragmentSrc)
+		: m_RendererID(0)
 	{
 		// Create an empty vertex shader handle
 		unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);

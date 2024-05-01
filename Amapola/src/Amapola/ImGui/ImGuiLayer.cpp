@@ -61,8 +61,8 @@ namespace Amapola
 
 	void ImGuiLayer::OnImGuiRender()
 	{
-		static bool show = true;
-		ImGui::ShowDemoWindow(&show);
+		/*static bool show = true;
+		ImGui::ShowDemoWindow(&show);*/
 	}
 
 	void ImGuiLayer::Begin()
@@ -77,6 +77,7 @@ namespace Amapola
 		ImGuiIO& io = ImGui::GetIO();
 		Application& app = Application::Get();
 		io.DisplaySize = ImVec2(app.GetWindow().GetWidth(), app.GetWindow().GetHeight());
+		//glViewport(0, 0, io.DisplaySize.x, io.DisplaySize.y);
 
 		/*float time = (float)glfwGetTime();
 		io.DeltaTime = m_Time > 0.0f ? (time - m_Time) : (1.0f / 60.0f);

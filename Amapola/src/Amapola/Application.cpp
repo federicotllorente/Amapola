@@ -23,13 +23,14 @@ namespace Amapola
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
 
-		// Create vertex array
-		glGenVertexArrays(1, &vertexArray);
-		glBindVertexArray(vertexArray);
+		// Create vertex array (constructor)
+		//glGenVertexArrays(1, &vertexArray);
+		//glBindVertexArray(vertexArray);
+		vertexArray = new VertexArray;
 
-		// Create vertex buffer
-		glGenBuffers(1, &vertexBuffer);
-		glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+		// Create vertex buffer (constructor)
+		//glGenBuffers(1, &vertexBuffer);
+		//glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 
 		float vertices[8 * 3] = {
 			-1.0f, 1.0f, 0.0f,
@@ -42,13 +43,21 @@ namespace Amapola
 			1.0f, -1.0f, 0.0f
 		};
 
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+		vertexBuffer = new VertexBuffer(vertices, 8 * 3);
+
+		// vertex buffer constructor
+		//glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+		// VertexArray::AddBuffer
+		//glEnableVertexAttribArray(0);
+		//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+		VertexBufferLayout layout;
+		layout.Push(GL_FLOAT, 3);
+		vertexArray->AddBuffer(*vertexBuffer, layout);
 		
-		// Create index buffer
-		glGenBuffers(1, &indexBuffer);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
+		// Create index buffer (constructor)
+		//glGenBuffers(1, &indexBuffer);
+		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
 
 		unsigned int indices[4 * 3] = {
 			0, 5, 3,
@@ -56,8 +65,11 @@ namespace Amapola
 			6, 1, 4,
 			4, 2, 7
 		};
+
+		// index buffer constructor
+		//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 		
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+		indexBuffer = new IndexBuffer(indices, 4 * 3);
 
 		std::string vsSrc = R"(
 			#version 330 core
@@ -104,12 +116,14 @@ namespace Amapola
 			m_Shader->Bind();
 			m_Shader->SetUniform4f("u_Color", m_Color[0], m_Color[1], m_Color[2], 1.0f);
 
+			modelMatrix = glm::mat4(1.0f);
 			modelMatrix = glm::rotate(modelMatrix, glm::radians(m_AngleX), glm::vec3(1.0f, 0.0f, 0.0f));
 			modelMatrix = glm::rotate(modelMatrix, glm::radians(m_AngleZ), glm::vec3(0.0f, 0.0f, 1.0f));
 
 			m_Shader->SetUniformMat4f("u_MVP", modelMatrix);
 			
-			glBindVertexArray(vertexArray);
+			vertexArray->Bind();
+			//glBindVertexArray(vertexArray);
 			glDrawElements(GL_TRIANGLES, 4 * 3, GL_UNSIGNED_INT, nullptr);
 			
 			for (Layer* layer : m_LayerStack)

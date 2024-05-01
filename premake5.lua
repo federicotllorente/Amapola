@@ -106,6 +106,7 @@ project "Sandbox"
 	includedirs
 	{
 		"Amapola/vendor/spdlog/include",
+		"Amapola/vendor/Glad/include",
 		"Amapola/vendor/imgui",
 		"Amapola/src",
 		"%{IncludeDir.glm}"

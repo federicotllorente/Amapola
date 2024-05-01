@@ -14,7 +14,10 @@
 #include <glm/glm.hpp>
 
 // TEMPORARY
-#include "Amapola/Renderer/Shader.h"
+#include "Renderer/Shader.h"
+#include "Renderer/VertexBuffer.h"
+#include "Renderer/IndexBuffer.h"
+#include "Renderer/VertexArray.h"
 
 namespace Amapola
 {
@@ -44,7 +47,10 @@ namespace Amapola
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 
-		unsigned int vertexBuffer, indexBuffer, vertexArray;
+		VertexBuffer* vertexBuffer = nullptr;
+		IndexBuffer* indexBuffer = nullptr;
+		VertexArray* vertexArray = nullptr;
+
 		std::unique_ptr<Shader> m_Shader;
 
 		float bgColor[3] = { 0.28f, 0.09f, 0.47f };
