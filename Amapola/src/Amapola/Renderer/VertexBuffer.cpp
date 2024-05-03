@@ -1,6 +1,7 @@
 #include "amplpch.h"
 #include "VertexBuffer.h"
 
+// TODO Remove
 #include <glad/glad.h>
 
 namespace Amapola

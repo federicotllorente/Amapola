@@ -3,8 +3,6 @@
 #include "Log.h"
 
 #include <glad/glad.h>
-#include <glm/glm.hpp>
-#include "glm/gtc/matrix_transform.hpp"
 
 namespace Amapola
 {
@@ -78,7 +76,7 @@ namespace Amapola
 		)";
 
 		//m_Shader = std::make_unique<Shader>(vsSrc, fsSrc);
-		m_Shader.reset(new Shader(vsSrc, fsSrc));
+		m_Shader.reset(Shader::Create(vsSrc, fsSrc));
 	}
 
 	Application::~Application()
@@ -95,14 +93,17 @@ namespace Amapola
 			m_Shader->Bind();
 			m_Shader->SetUniform4f("u_Color", m_Color[0], m_Color[1], m_Color[2], 1.0f);
 
-			modelMatrix = glm::mat4(1.0f);
+			glm::mat4 modelMatrix = glm::mat4(1.0f);
 			modelMatrix = glm::rotate(modelMatrix, glm::radians(m_AngleX), glm::vec3(1.0f, 0.0f, 0.0f));
 			modelMatrix = glm::rotate(modelMatrix, glm::radians(m_AngleZ), glm::vec3(0.0f, 0.0f, 1.0f));
 
-			m_Shader->SetUniformMat4f("u_MVP", modelMatrix);
+			glm::mat4 viewMatrix = glm::mat4(glm::translate(modelMatrix, viewCoords));
+			glm::mat4 projectionMatrix = glm::mat4(glm::ortho(projectionPosition.x, projectionPosition.y, projectionPosition.z, projectionPosition.w, m_Near, m_Far));
+
+			m_Shader->SetUniformMat4f("u_MVP", projectionMatrix * viewMatrix * modelMatrix);
 			
 			vertexArray->Bind();
-			glDrawElements(GL_TRIANGLES, 4 * 3, GL_UNSIGNED_INT, nullptr);
+			glDrawElements(GL_TRIANGLES, indexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
 			
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core.h"
+#include "Log.h"
 #include "Window.h"
 #include "Layers/LayerStack.h"
 
@@ -12,9 +13,11 @@
 #include "ImGui/ImGuiLayer.h"
 
 #include <glm/glm.hpp>
+#include "glm/gtc/matrix_transform.hpp"
 
 // TEMPORARY
 #include "Renderer/Shader.h"
+//#include "Platform/OpenGL/OpenGLShader.h"
 #include "Renderer/VertexBuffer.h"
 #include "Renderer/IndexBuffer.h"
 #include "Renderer/VertexArray.h"
@@ -56,9 +59,10 @@ namespace Amapola
 		float bgColor[3] = { 0.28f, 0.09f, 0.47f };
 		float m_Color[3] = { 0.38f, 0.19f, 0.57f };
 
-		glm::mat4 modelMatrix = glm::mat4(1.0f);
-		/*glm::mat4 m_ProjectionMatrix;
-		glm::mat4 m_ViewMatrix;*/
+		glm::vec4 projectionPosition = glm::vec4(-1, 1, -1, 1);
+		float m_Near = -1.0f;
+		float m_Far = 1.0f;
+		glm::vec3 viewCoords = glm::vec3(0, 0, 0);
 
 		float m_AngleX = 0.0f;
 		float m_AngleZ = 0.0f;
@@ -66,7 +70,10 @@ namespace Amapola
 	public:
 		inline float& GetBgColor() { return *bgColor; }
 		inline float& GetColor() { return *m_Color; }
-		inline glm::mat4& GetModelMatrix() { return modelMatrix; }
+		inline glm::vec4& GetProjectionPosition() { return projectionPosition; }
+		inline glm::vec3& GetViewCoords() { return viewCoords; }
+		inline float& GetNear() { return m_Near; }
+		inline float& GetFar() { return m_Far; }
 		inline float& GetAngleX() { return m_AngleX; }
 		inline float& GetAngleZ() { return m_AngleZ; }
 	};

@@ -4,6 +4,8 @@
 #include "Amapola/Log.h"
 
 #include <vector>
+
+// TODO Remove
 #include <glad/glad.h>
 
 namespace Amapola

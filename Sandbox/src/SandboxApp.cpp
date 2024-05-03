@@ -7,14 +7,20 @@ public:
 	ExampleLayer(
 		float* bgColorRef,
 		float* colorRef,
-		glm::mat4& modelMatrixRef,
+		glm::vec4& projectionPositionsRef,
+		glm::vec3& viewCoordsRef,
+		float* nearRef,
+		float* farRef,
 		float* angleXRef,
 		float* angleZRef
 	)
 		: Layer("Example"),
 		bgColorRef(bgColorRef),
 		colorRef(colorRef),
-		modelMatrixRef(modelMatrixRef),
+		projectionPositionsRef(projectionPositionsRef),
+		viewCoordsRef(viewCoordsRef),
+		nearRef(nearRef),
+		farRef(farRef),
 		angleXRef(angleXRef),
 		angleZRef(angleZRef)
 	{
@@ -52,7 +58,10 @@ public:
 		ImGui::End();
 
 		ImGui::Begin("Matrices settings");
-		ImGui::SliderFloat4("Model matrix", &modelMatrixRef[0][0], -150, 150);
+		ImGui::SliderFloat4("Projection positions", &projectionPositionsRef.x, -5, 5);
+		ImGui::SliderFloat3("View coords", &viewCoordsRef.x, -1, 1);
+		ImGui::SliderFloat("Near", nearRef, -90.0f, 90.0f);
+		ImGui::SliderFloat("Far", farRef, -90.0f, 90.0f);
 		ImGui::SliderFloat("Rotation X", angleXRef, -90.0f, 90.0f);
 		ImGui::SliderFloat("Rotation Z", angleZRef, -180.0f, 180.0f);
 		ImGui::End();
@@ -70,7 +79,10 @@ public:
 
 	float* bgColorRef;
 	float* colorRef;
-	glm::mat4& modelMatrixRef;
+	glm::vec4& projectionPositionsRef;
+	glm::vec3& viewCoordsRef;
+	float* nearRef;
+	float* farRef;
 	float* angleXRef;
 	float* angleZRef;
 };
@@ -82,10 +94,13 @@ public:
 	{
 		float* bgColorRef = &this->GetBgColor();
 		float* colorRef = &this->GetColor();
-		glm::mat4& modelMatrixRef = this->GetModelMatrix();
+		glm::vec4& projectionPositionsRef = this->GetProjectionPosition();
+		glm::vec3& viewCoordsRef = this->GetViewCoords();
+		float* nearRef = &this->GetNear();
+		float* farRef = &this->GetFar();
 		float* angleXRef = &this->GetAngleX();
 		float* angleZRef = &this->GetAngleZ();
-		PushLayer(new ExampleLayer(bgColorRef, colorRef, modelMatrixRef, angleXRef, angleZRef));
+		PushLayer(new ExampleLayer(bgColorRef, colorRef, projectionPositionsRef, viewCoordsRef, nearRef, farRef, angleXRef, angleZRef));
 	}
 
 	~Sandbox()
