@@ -34,7 +34,7 @@ namespace Amapola
 			1.0f, -1.0f, 0.0f
 		};
 
-		vertexBuffer = new VertexBuffer(vertices, 8 * 3);
+		vertexBuffer = VertexBuffer::Create(vertices, 8 * 3);
 
 		VertexBufferLayout layout;
 		layout.Push(GL_FLOAT, 3);
@@ -47,7 +47,7 @@ namespace Amapola
 			4, 2, 7
 		};
 
-		indexBuffer = new IndexBuffer(indices, 4 * 3);
+		indexBuffer = IndexBuffer::Create(indices, 4 * 3);
 
 		std::string vsSrc = R"(
 			#version 330 core

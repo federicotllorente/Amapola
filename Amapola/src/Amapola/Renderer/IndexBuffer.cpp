@@ -1,30 +1,34 @@
 #include "amplpch.h"
 #include "IndexBuffer.h"
+#include "Renderer.h"
+#include "Amapola/Log.h"
+#include "Platform/OpenGL/OpenGLBuffer.h"
 
-#include <glad/glad.h>
-
+// TODO Merge files with VertexBuffer into Buffer.cpp
 namespace Amapola
 {
-	IndexBuffer::IndexBuffer(const unsigned int* data, unsigned int count)
-		: m_Count(count)
-	{
-		glGenBuffers(1, &m_RendererID);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(unsigned int), data, GL_STATIC_DRAW);
-	}
-
 	IndexBuffer::~IndexBuffer()
 	{
-		glDeleteBuffers(1, &m_RendererID);
 	}
-
-	void IndexBuffer::Bind() const
+	
+	IndexBuffer* IndexBuffer::Create(const unsigned int* data, unsigned int count)
 	{
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
-	}
-
-	void IndexBuffer::Unbind() const
-	{
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		switch (Renderer::GetAPI())
+		{
+			case RendererAPI::None:
+			{
+				AMPL_CORE_ASSERT(false, "Renderer API cannot be NONE");
+				return nullptr;
+			}
+			case RendererAPI::OpenGL:
+			{
+				return new OpenGLIndexBuffer(data, count);
+			}
+			default:
+			{
+				AMPL_CORE_ASSERT(false, "Unknown Renderer API");
+				return nullptr;
+			}
+		}
 	}
 }

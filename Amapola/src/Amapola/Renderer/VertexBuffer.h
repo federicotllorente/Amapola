@@ -1,19 +1,18 @@
 #pragma once
 
+// TODO Merge files with IndexBuffer into Buffer.h
 namespace Amapola
 {
 	class VertexBuffer
 	{
 	public:
-		VertexBuffer(const void* data, unsigned int count);
-		~VertexBuffer();
+		virtual ~VertexBuffer();
+		
+		static VertexBuffer* Create(const void* data, unsigned int count);
 
-		void Bind() const;
-		void Unbind() const;
-		//void Lock();
-		//void Unlock();
-
-	private:
-		unsigned int m_RendererID;
+		virtual void Bind() const = 0;
+		virtual void Unbind() const = 0;
+		//virtual void Lock() const = 0;
+		//virtual void Unlock() const = 0;
 	};
 }
