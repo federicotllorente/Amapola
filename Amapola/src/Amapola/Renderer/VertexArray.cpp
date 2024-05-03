@@ -1,51 +1,33 @@
 #include "amplpch.h"
 #include "VertexArray.h"
+#include "Renderer.h"
+#include "Amapola/Log.h"
+#include "Platform/OpenGL/OpenGLVertexArray.h"
 
 namespace Amapola
 {
-	VertexArray::VertexArray()
-	{
-		glGenVertexArrays(1, &m_Renderer_ID);
-	}
-
 	VertexArray::~VertexArray()
 	{
-		glDeleteVertexArrays(1, &m_Renderer_ID);
 	}
 
-	void VertexArray::AddBuffer(const VertexBuffer& vb, const VertexBufferLayout& layout)
+	VertexArray* VertexArray::Create()
 	{
-		Bind();
-		vb.Bind();
-
-		const auto& elements = layout.GetElements();
-		unsigned int offset = 0;
-
-		for (unsigned int i = 0; i < elements.size(); i++)
+		switch (Renderer::GetAPI())
 		{
-			const auto& element = elements[i];
-
-			glEnableVertexAttribArray(i);
-			glVertexAttribPointer(
-				i,
-				element.count,
-				element.type,
-				element.isNormalized,
-				layout.GetStride(),
-				(const void*)offset
-			);
-
-			offset += element.count * VertexBufferElement::GetSizeOfType(element.type);
+			case RendererAPI::None:
+			{
+				AMPL_CORE_ASSERT(false, "Renderer API cannot be NONE");
+				return nullptr;
+			}
+			case RendererAPI::OpenGL:
+			{
+				return new OpenGLVertexArray();
+			}
+			default:
+			{
+				AMPL_CORE_ASSERT(false, "Unknown Renderer API");
+				return nullptr;
+			}
 		}
-	}
-
-	void VertexArray::Bind() const
-	{
-		glBindVertexArray(m_Renderer_ID);
-	}
-
-	void VertexArray::Unbind() const
-	{
-		glBindVertexArray(0);
 	}
 }

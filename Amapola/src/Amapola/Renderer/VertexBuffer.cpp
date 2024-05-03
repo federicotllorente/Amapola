@@ -15,20 +15,20 @@ namespace Amapola
 	{
 		switch (Renderer::GetAPI())
 		{
-		case RendererAPI::None:
-		{
-			AMPL_CORE_ASSERT(false, "Renderer API cannot be NONE");
-			return nullptr;
-		}
-		case RendererAPI::OpenGL:
-		{
-			return new OpenGLVertexBuffer(data, count);
-		}
-		default:
-		{
-			AMPL_CORE_ASSERT(false, "Unknown Renderer API");
-			return nullptr;
-		}
+			case RendererAPI::None:
+			{
+				AMPL_CORE_ASSERT(false, "Renderer API cannot be NONE");
+				return nullptr;
+			}
+			case RendererAPI::OpenGL:
+			{
+				return new OpenGLVertexBuffer(data, count);
+			}
+			default:
+			{
+				AMPL_CORE_ASSERT(false, "Unknown Renderer API");
+				return nullptr;
+			}
 		}
 	}
 }

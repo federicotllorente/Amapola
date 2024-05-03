@@ -8,14 +8,12 @@ namespace Amapola
 	class VertexArray
 	{
 	public:
-		VertexArray();
-		~VertexArray();
+		virtual ~VertexArray();
 
-		void AddBuffer(const VertexBuffer& vb, const VertexBufferLayout& layout);
-		void Bind() const;
-		void Unbind() const;
+		static VertexArray* Create();
 
-	private:
-		unsigned int m_Renderer_ID;
+		virtual void AddBuffer(const VertexBuffer& vb, const VertexBufferLayout& layout) = 0;
+		virtual void Bind() const = 0;
+		virtual void Unbind() const = 0;
 	};
 }

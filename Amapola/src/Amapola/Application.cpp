@@ -21,7 +21,7 @@ namespace Amapola
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
 
-		vertexArray = new VertexArray;
+		vertexArray = VertexArray::Create();
 
 		float vertices[8 * 3] = {
 			-1.0f, 1.0f, 0.0f,
